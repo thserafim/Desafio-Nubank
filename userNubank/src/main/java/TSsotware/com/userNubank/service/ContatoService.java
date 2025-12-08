@@ -36,7 +36,7 @@ public class ContatoService {
     public List<Contato> listarContatos (String clienteId){
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "cliente nao encontrado"));
-        
+
         return cliente.getContatos();
     }
 }

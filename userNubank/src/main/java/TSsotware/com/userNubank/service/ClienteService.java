@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
 
-public class CleinteService {
+public class ClienteService {
 
     private final ClienteRepository repository;
 
@@ -31,11 +33,18 @@ public class CleinteService {
                 c.getId(),
                 c.getNome(),
                 c.getContatos()
-        )).toList();
+        ))
+                .collect(Collectors.toList());
     }
+
 
     public Cliente buscarPorId (String id){
         return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "cliente não encontrado"));
+    }
+
+    public ClienteResponseDTO buscarPorIdDTO(String id) {
+        Cliente cliente = buscarPorId(id);
+        return new ClienteResponseDTO(cliente.getId(), cliente.getNome(), cliente.getContatos());
     }
 }
